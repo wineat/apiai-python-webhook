@@ -59,3 +59,9 @@ docs/_build/
 target/
 
 # Created by .ignore support plugin (hsz.mobi)
+.idea/apiai-python-webhook.iml
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
