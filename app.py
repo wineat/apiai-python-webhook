@@ -29,13 +29,14 @@ def webhook():
 
 
 def processRequest(req):
-    print "started processing"
+    print ("started processing")
     if req.get("result").get("action") != "yahooWeatherForecast":
         return {}
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = makeYqlQuery(req)
-    print "yql query created"
+    print ("yql query created")
     if yql_query is None:
+        print("yqlquery is empty")
         return {}
     yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
     print(yql_url)
@@ -161,6 +162,6 @@ def makeWebhookResult(data):
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    # print "Starting app on port %d" % port
+    print ("Starting app on port %d" % port)
 
     app.run(debug=False, port=port, host='0.0.0.0')
