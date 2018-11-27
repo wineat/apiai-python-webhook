@@ -30,23 +30,61 @@ def webhook():
 
 def processRequest(req):
     print ("started processing")
-    if req.get("result").get("action") != "yahooWeatherForecast":
+    if req.get("result").get("action") == "yahooWeatherForecast":
+        baseurl = "https://query.yahooapis.com/v1/public/yql?"
+        yql_query = makeYqlQuery(req)
+        print ("yql query created")
+        if yql_query is None:
+            print("yqlquery is empty")
+            return {}
+        yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
+        print(yql_url)
+        result = urllib.urlopen(yql_url).read()
+        print("yql result: ")
+        print(result)
+        data = json.loads(result)
+        res = makeWebhookResult(data)
+    elif req.get("result").get("action") == "getBodyPart":
+	data = req
+	res = makeWebhookResultForGetBodyPart(data)
+    elif req.get("result").get("action") == "getBotName":
+	data = req
+	res = makeWebhookResultForGetBotName(data)
+    elif req.get("result").get("action") == "getEventTime":
+	data = req
+	res = makeWebhookResultForGetEventTime(data)
+    elif req.get("result").get("action") == "getFood":
+	data = req
+	res = makeWebhookResultForGetFood(data)
+    elif req.get("result").get("action") == "getHowAreYou":
+	data = req
+	res = makeWebhookResultForGetHowAreYou(data)
+    elif req.get("result").get("action") == "getNeedSpeaker":
+	data = req
+	res = makeWebhookResultForGetNeedSpeaker(data)
+    elif req.get("result").get("action") == "getNeedTimeSpeaker":
+	data = req
+	res = makeWebhookResultForGetNeedTimeSpeaker(data)
+    elif req.get("result").get("action") == "getQuit":
+	data = req
+	res = makeWebhookResultForGetQuit(data)
+    elif req.get("result").get("action") == "getSchedule":
+	data = req
+	res = makeWebhookResultForGetSchedule(data)
+    elif req.get("result").get("action") == "getSpeakerOrderIntent":
+	data = req
+	res = makeWebhookResultForGetSpeakerOrderIntent(data)
+    elif req.get("result").get("action") == "getSpeakers":
+	data = req
+	res = makeWebhookResultForGetSpeakers(data)
+    elif req.get("result").get("action") == "getUst":
+	data = req
+	res = makeWebhookResultForGetUst(data)
+    elif req.get("result").get("action") == "getWifi":
+	data = req
+	res = makeWebhookResultForGetWifi(data)
+    else:
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    print ("yql query created")
-    if yql_query is None:
-        print("yqlquery is empty")
-        return {}
-    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
-    print(yql_url)
-
-    result = urllib.urlopen(yql_url).read()
-    print("yql result: ")
-    print(result)
-
-    data = json.loads(result)
-    res = makeWebhookResult(data)
     return res
 
 
@@ -158,10 +196,155 @@ def makeWebhookResult(data):
         "source": "apiai-weather-webhook-sample"
     }
 
+def makeWebhookResultForGetBodyPart(data):
+    bodypart = data.get("result").get("parameters").get("body-part")
+    outcome = 'Unknown'
+    if bodypart == 'mouth':
+        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+    elif bodypart == 'ear':
+        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+    elif bodypart == 'skin':
+        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+    elif bodypart == 'nose':
+        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+    elif bodypart == 'eye':
+        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+    speech = outcome
+
+    return {
+        "speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetBotName(data):
+    speech = 'I am Kitty Bot!'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetEventTime(data):
+    speech = 'The event goes on from 10 a.m. to 5 p.m.'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"   
+    }
+
+def makeWebhookResultForGetFood(data):
+    speech = 'The food is served downstairs at the cafe'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"   
+    }
+
+def makeWebhookResultForGetHowAreYou(data):
+    speech = 'Im here answering all your questions. What do you think?'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"   
+    }
+
+def makeWebhookResultForGetNeedSpeaker(data):
+    speakername = data.get("result").get("parameters").get("SpeakerName")
+    outcome = 'Unknown'
+    if speakername == 'vineet':
+        outcome = 'Vineet Baburaj is presenting at 11 a.m.'
+    elif speakername == 'ashok':
+        outcome = 'Ashok Nair is presenting at 12 p.m.'
+    elif speakername == 'simsar':
+        outcome = 'Simsar is presenting at 12:30 p.m.'
+    elif speakername == 'rafi':
+        outcome = 'Rafi is presenting tomorrow at 12:30 p.m.'
+    speech = outcome
+
+    return {
+        "speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetNeedTimeSpeaker(data):
+    speakertime = data.get("result").get("parameters").get("TIME_SPEAKER")
+    eventday = data.get("result").get("parameters").get("eventDays")
+    outcome = 'Unknown'
+    if speakertime == 'eleven':
+        outcome = 'Vineet Baburaj is presenting at 11 a.m.'
+    elif speakertime == 'twelve':
+        outcome = 'Ashok Nair is presenting at 12 p.m.'
+    elif speakertime == 'twelve_thirty':
+        outcome = 'Simsar is presenting at 12:30 p.m.'
+    elif speakertime == 'twelve_thirty':
+        outcome = 'Rafi is presenting tomorrow at 12:30 p.m.'
+    speech = outcome
+
+    return {
+        "speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetQuit(data):
+    speech = 'Bye! It was nice talking to you!'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetSchedule(data):
+    speech = 'There will be a talk at 11 a.m. by Vineet Baburaj followed by a presentation by Mr. Ashok Nair at 12 p.m. and another presentation by Simsar at 12:30 p.m.'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetSpeakerOderIntent(data):
+    speakeroder = data.get("result").get("parameters").get("SpeakerOder")
+    outcome = 'Unknown'
+    if speakerorder == 'first':
+        outcome = 'Vineet Baburaj is the fist speaker presenting at 11 a.m.'
+    elif speakerorder == 'second':
+        outcome = 'Ashok Nair is the second speaker presenting at 12 p.m.'
+    elif speakerorder == 'third':
+        outcome = 'Simsar is the third speaker presenting at 12:30 p.m.'
+    speech = outcome
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+    
+def makeWebhookResultForGetSpeakers(data):
+    speech = 'The speakers presenting today are Vineet, Ashok and Simsar!'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetUst(data):
+    speech = 'I was bult in UST Global. It is an American multinational provider of Digital, IT services and solutions.'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
+
+def makeWebhookResultForGetWifi(data):
+    speech = 'Please get help from an UST Global employee to connect to the wifi.'
+    return {
+	"speech": speech,
+	"displayText": speech,
+	"source": "webhookdata"
+    }
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
     print ("Starting app on port %d" % port)
-
-    app.run(debug=False, port=port, host='0.0.0.0')
