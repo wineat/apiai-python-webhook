@@ -200,16 +200,16 @@ def makeWebhookResultForGetBodyPart(data):
     bodypart = data.get("result").get("parameters").get("body-part")
     outcome = 'Unknown'
     if bodypart == 'mouth':
-        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+        outcome = 'm'
     elif bodypart == 'ear':
-        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+        outcome = 'e'
     elif bodypart == 'skin':
-        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+        outcome = 's'
     elif bodypart == 'nose':
-        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
+        outcome = 'n'
     elif bodypart == 'eye':
-        outcome = 'I am not exactly sure about my body parts were made, just like you dont how yours were made.'
-    speech = outcome
+        outcome = 'e'
+    speech = bodypart + 'is made of'
 
     return {
         "speech": speech,
