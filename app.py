@@ -33,14 +33,15 @@ def webhook():
 
 def processRequest(req):
     print ("started processing")
+    subscription_key = 3376eb73d2f440ac8d60eeac6f2f7b68
+    assert subscription_key
     if req.get("result").get("action") == "webSearch":
-        baseurl = "https://api.cognitive.microsoft.com/bing/v7.0/search"
-        wql_query = makeWqlQuery(req)
+        search_url = "https://api.cognitive.microsoft.com/bing/v7.0/search"
+        search_term = makeWqlQuery(req)
         print ("wql query created")
-        if wql_query is None:
+        if search_term is None:
             print("wqlquery is empty")
             return {}
-        subscription_key = 3376eb73d2f440ac8d60eeac6f2f7b68
         headers = {"Ocp-Apim-Subscription-Key" : subscription_key}
 	params  = {"q": search_term, "textDecorations":True, "textFormat":"HTML"}
 	response = requests.get(search_url, headers=headers, params=params)
@@ -62,7 +63,6 @@ def makeWqlQuery(req):
     webSearchParam = parameters.get("q")
     if webSearchParam is None:
         return None
-
     return q
 
 def makeWebhookSearchResult(search_results):
