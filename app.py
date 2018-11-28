@@ -4,6 +4,9 @@ import urllib
 import json
 import os
 
+import requests
+from IPython.display import HTML
+
 from flask import Flask
 from flask import request
 from flask import make_response
@@ -27,9 +30,7 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-import requests
 
-from IPython.display import HTML
 
 def processRequest(req):
     print ("started processing")
@@ -40,6 +41,7 @@ def processRequest(req):
         if wql_query is None:
             print("wqlquery is empty")
             return {}
+	subscription_key = 3376eb73d2f440ac8d60eeac6f2f7b68
         headers = {"Ocp-Apim-Subscription-Key" : subscription_key}
 	params  = {"q": search_term, "textDecorations":True, "textFormat":"HTML"}
 	response = requests.get(search_url, headers=headers, params=params)
@@ -62,7 +64,7 @@ def makeWqlQuery(req):
     if webSearchParam is None:
         return None
 
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
+    return q
 
 
 def makeWebhookSearchResult(data):
