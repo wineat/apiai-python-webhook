@@ -48,7 +48,7 @@ def processRequest(req):
 	response.raise_for_status()
 	search_results = response.json()
         print("yql result: ")
-        print(result)
+        print(search_results)
         # data = json.loads(search_result)
         res = makeWebhookSearchResult(search_results)
     else:
