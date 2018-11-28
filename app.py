@@ -31,7 +31,6 @@ def webhook():
     return r
 
 
-
 def processRequest(req):
     print ("started processing")
     if req.get("result").get("action") == "webSearch":
@@ -41,7 +40,7 @@ def processRequest(req):
         if wql_query is None:
             print("wqlquery is empty")
             return {}
-	subscription_key = 3376eb73d2f440ac8d60eeac6f2f7b68
+        subscription_key = 3376eb73d2f440ac8d60eeac6f2f7b68
         headers = {"Ocp-Apim-Subscription-Key" : subscription_key}
 	params  = {"q": search_term, "textDecorations":True, "textFormat":"HTML"}
 	response = requests.get(search_url, headers=headers, params=params)
@@ -49,8 +48,8 @@ def processRequest(req):
 	search_results = response.json()
         print("yql result: ")
         print(result)
-        data = json.loads(search_result)
-        res = makeWebhookSearchResult(data)
+        # data = json.loads(search_result)
+        res = makeWebhookSearchResult(search_results)
     else:
         return {}
     return res
@@ -66,8 +65,7 @@ def makeWqlQuery(req):
 
     return q
 
-
-def makeWebhookSearchResult(data):
+def makeWebhookSearchResult(search_results):
     rows = "\n".join(["""<tr>
                            <td><a href=\"{0}\">{1}</a></td>
                            <td>{2}</td>
