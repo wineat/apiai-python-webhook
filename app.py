@@ -375,11 +375,11 @@ def makeWebhookResultForinfinityLabs(data):
 def makeWebhookResultForBooth(data):
     speakername = data.get("result").get("parameters").get("booth_name")
     outcome = 'Unknown'
-    if booth_name == 'infinity labs':
+    if booth_name == 'infinity':
         outcome = 'I am Infinity Labs display. '
-    elif booth_name == 'D3+ Digital Expo':
+    elif booth_name == 'Expo':
         outcome = 'The D3+ Digital Expo will be displaying the following: Mail Alert for resolving tickets, Virtual venues, Vendor Master Data Managment, Process Automation, OE blocks.'
-    elif booth_name == 'Future minds':
+    elif booth_name == 'Future':
         outcome = 'Robotic arm based automation of POS, Automation of Gas dispensing unit.'
     speech = outcome
 
