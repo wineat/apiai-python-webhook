@@ -373,7 +373,7 @@ def makeWebhookResultForinfinityLabs(data):
     }
 
 def makeWebhookResultForBooth(data):
-    speakername = data.get("result").get("parameters").get("booth_name")
+    booth_name = data.get("result").get("parameters").get("booth_name")
     outcome = 'Unknown'
     if booth_name == 'infinity':
         outcome = 'I am Infinity Labs display. '
