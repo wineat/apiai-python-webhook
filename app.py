@@ -208,7 +208,7 @@ def makeWebhookResult(data):
 
 
 def makeWebhookResultFord3(data):
-    speech = 'D3 is UST’s DevCon where the brightest minds in UST Global can meet, learn and develop their programming and engineering skills. Developers and technologists are our most prized assets. D3 has been designed for our developers, designers and builders.'
+    speech = 'D3 gineering skills.'
     return {
 	"speech": speech,
 	"displayText": speech,
